@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+/* Palette taken from a PCB: blue solder mask, gold plating, white silkscreen,
+   and a cyan "signal" colour for anything that is live. */
+@theme {
+  --color-mask: #0a1733;
+  --color-mask-2: #0f2146;
+  --color-mask-3: #1b3573;
+  --color-gold: #e9b44c;
+  --color-silk: #eaf0ff;
+  --color-muted: #a3b3d9;
+  --color-signal: #4fd1ff;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { @apply bg-mask text-silk font-sans antialiased; }
+::selection { background: var(--color-gold); color: var(--color-mask); }
+:focus-visible { outline: 3px solid var(--color-signal); outline-offset: 3px; }
+
+/* Faint grid that sits under every section after the hero. */
+.board {
+  background-image:
+    linear-gradient(rgba(234, 240, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 240, 255, 0.035) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Square gold "pads" in the corners of a panel. */
+.pads { position: relative; }
+.pads::before,
+.pads::after {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  background: var(--color-gold);
+  pointer-events: none;
+}
+.pads::before { top: -4px; left: -4px; }
+.pads::after { bottom: -4px; right: -4px; }
+
+/* Hero entrance: the one orchestrated moment on load. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+/* Skill bars fill from the left whenever a group is opened. */
+@keyframes fill {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.fill { transform-origin: left; animation: fill 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes blink { 50% { opacity: 0; } }
+.caret { animation: blink 1s steps(1) infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
