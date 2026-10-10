@@ -40,17 +40,7 @@ Start the development server:
 npm run dev
 ```
 
-Build for production:
 
-```bash
-npm run build
-```
-
-Preview the production build:
-
-```bash
-npm run preview
-```
 
 ## Project Structure
 
